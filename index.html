@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Peminjaman Buku Perpustakaan Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-book"></i> Sistem Informasi Peminjaman Buku Perpustakaan Online</h1>
+            <p>Kelola koleksi buku dan peminjaman dengan mudah</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('buku')">
+                <i class="fas fa-book"></i> Data Buku
+            </button>
+            <button class="tab-btn" onclick="showTab('peminjaman')">
+                <i class="fas fa-handshake"></i> Peminjaman
+            </button>
+            <button class="tab-btn" onclick="showTab('anggota')">
+                <i class="fas fa-users"></i> Anggota
+            </button>
+        </nav>
+
+        <!-- Buku Tab -->
+        <div id="buku" class="tab-content active">
+            <div class="card">
+                <h2><i class="fas fa-book"></i> Manajemen Data Buku</h2>
+                <form id="formBuku" class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Judul Buku</label>
+                            <input type="text" id="judulBuku" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Penulis</label>
+                            <input type="text" id="penulisBuku" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Penerbit</label>
+                            <input type="text" id="penerbitBuku" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Terbit</label>
+                            <input type="number" id="tahunBuku" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ISBN</label>
+                            <input type="text" id="isbnBuku">
+                        </div>
+                        <div class="form-group">
+                            <label>Stok</label>
+                            <input type="number" id="stokBuku" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select id="kategoriBuku" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="Fiksi">Fiksi</option>
+                                <option value="Non-Fiksi">Non-Fiksi</option>
+                                <option value="Sains">Sains</option>
+                                <option value="Teknologi">Teknologi</option>
+                                <option value="Agama">Agama</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Simpan Buku
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetForm('buku')">
+                                <i class="fas fa-refresh"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Daftar Buku</h3>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchBuku" placeholder="Cari buku..." onkeyup="searchTable('bukuTable', this.value)">
+                    </div>
+                </div>
+                <table id="bukuTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Judul</th>
+                            <th>Penulis</th>
+                            <th>Penerbit</th>
+                            <th>Tahun</th>
+                            <th>ISBN</th>
+                            <th>Stok</th>
+                            <th>Kategori</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Peminjaman Tab -->
+        <div id="peminjaman" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-handshake"></i> Manajemen Peminjaman</h2>
+                <form id="formPeminjaman" class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ID Anggota</label>
+                            <select id="idAnggota" required>
+                                <option value="">id anggota</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ID Buku</label>
+                            <select id="idBukuPeminjaman" required>
+                                <option value="">Pilih Buku</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tanggal Pinjam</label>
+                            <input type="date" id="tglPinjam" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Jatuh Tempo</label>
+                            <input type="date" id="tglJatuhTempo" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Simpan Peminjaman
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm('peminjaman')">
+                            <i class="fas fa-refresh"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Daftar Peminjaman</h3>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchPeminjaman" placeholder="Cari peminjaman..." onkeyup="searchTable('peminjamanTable', this.value)">
+                    </div>
+                </div>
+                <table id="peminjamanTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Anggota</th>
+                            <th>ID Buku</th>
+                            <th>Judul Buku</th>
+                            <th>Tgl Pinjam</th>
+                            <th>Tgl Jatuh Tempo</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Anggota Tab -->
+        <div id="anggota" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-users"></i> Manajemen Anggota</h2>
+                <form id="formAnggota" class="form-group">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nama Anggota</label>
+                            <input type="text" id="namaAnggota" required>
+                        </div>
+                        <div class="form-group">
+                            <label>No. HP</label>
+                            <input type="tel" id="noHp" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <textarea id="alamat" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Daftar</label>
+                            <input type="date" id="tglDaftar">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Simpan Anggota
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm('anggota')">
+                            <i class="fas fa-refresh"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Daftar Anggota</h3>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchAnggota" placeholder="Cari anggota..." onkeyup="searchTable('anggotaTable', this.value)">
+                    </div>
+                </div>
+                <table id="anggotaTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>No. HP</th>
+                            <th>Alamat</th>
+                            <th>Tgl Daftar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Edit Data</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="editForm">
+                <!-- Dynamic form fields will be inserted here -->
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
